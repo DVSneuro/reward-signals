@@ -15,21 +15,20 @@ addpath(fullfile(maindir,'rw'));
 > data(1)
 
 ans =
-
-          Npoints: 7
-           lapse1: 0
-           lapse2: 0
-       deckchoice: 2
+          Npoints: 7 % how many points they would've earned
+           lapse1: 0 % did the fail to respond in phase 1?
+           lapse2: 0 % did the fail to respond in phase 2?
+       deckchoice: 2 % what did they choose?
               RT1: 0.5860
               RT2: 0.5221
-     choice_onset: 4.0241
-     press1_onset: 4.6101
+     choice_onset: 4.0241 % when they were presented the options
+     press1_onset: 4.6101 % when did they press it
        info_onset: 8.0149
     partner_onset: 12.2563
      press2_onset: 12.7785
         aff_onset: 16.5313
           soc_win: 0
-             word: 'active'
+             word: 'active' % unsure what this is
            rating: 0
          is_catch: 0
          
@@ -38,7 +37,7 @@ ans =
 blocks = 1:4;
 for r = 1:length(blocks)
     
-    load(fullfile(datadir,sprintf('%s_Computer_feedback_%d.mat',num2str(subject),r)))
+    load(fullfile(datadir,sprintf('%s_feedback_%d.mat',num2str(subject),r)))
     choicedata = [data.Npoints; data.deckchoice]';
     
     % estimate learning
