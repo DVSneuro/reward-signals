@@ -1,0 +1,4 @@
+[submodule "rutgers-socreward"]
+	path = rutgers-socreward
+	url = https://github.com/CalebRHaynes/rutgers-socreward.git
+	branch = master

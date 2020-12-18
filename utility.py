@@ -44,19 +44,6 @@ col_list = [
     "highval_count",
 ]
 
-def col_name(df):
-
-    # rename columns with dictionary
-    renamed = {
-        "index": "trial",
-        "deckchoice": "choice",
-        "partner": "is_social",
-        "soc_win": "aff_feedback_curr"
-    }
-
-    return df.rename(columns = renamed)
-
-
 def convert_mat(file):
     # read in raw behavioral .mat files -> pandas dataframes
     return pd.DataFrame(
@@ -121,7 +108,7 @@ def add_known_val(df):
             diff_points.append(np.nan)
         # get difference and add to list
         else:
-            diff_points.append(star_val - pentagon_val)
+            diff_points.append(pentagon_val - star_val)
 
     df["diff_points"] = diff_points
 
@@ -140,6 +127,37 @@ def add_prev_columns(df):
 
     return df
 
+def col_name(df):
+
+    # rename columns with dictionary
+    renamed = {
+        "index": "trial",
+        "deckchoice": "choice",
+        "partner": "is_social",
+        "soc_win": "aff_feedback_curr"
+    }
+
+    return df.rename(columns = renamed)
+
+#maybe include size of points in aff
+#def split_aff_columns(df):
+
+    def label_aff_social (row):
+        if row['prev_is_social'] == 1 :
+            return row['aff_feedback_prev']
+        else:
+            return 0
+
+    def label_aff_nonsocial (row):
+        if row['prev_is_social'] == 0 :
+            return row['aff_feedback_prev']
+        else:
+            return 0
+
+    df['aff_feedback_prev_social'] = df.apply (lambda row: label_aff_social(row), axis=1)
+    df['aff_feedback_prev_nonsocial'] = df.apply (lambda row: label_aff_nonsocial(row), axis=1)
+
+    return df
 
 def make_derived_df(matfiles, write=False):
     """
@@ -153,6 +171,7 @@ def make_derived_df(matfiles, write=False):
     # make known star, pentagon, and difference columns
     # add "trial - 1" (previous trial) columns
     df = add_prev_columns((add_known_val(df)))
+
     # rename columns and get rid of nans
 
     df = col_name(df)
